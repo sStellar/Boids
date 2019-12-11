@@ -1,1 +1,1 @@
-Working on Boids in C/C++ with OpenGL
+Working on Boids in C/C++ with GTK
