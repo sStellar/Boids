@@ -6,4 +6,4 @@
 
 #This is the target that compiles our executable
 #all : 01_hello_SDL.cpp
-g++ 01_hello_SDL.cpp -w -lSDL2 -o 01_hello_SDL
+g++ 01_hello_SDL.cpp -w -lSDL2 -lSDL_image -o 01_hello_SDL

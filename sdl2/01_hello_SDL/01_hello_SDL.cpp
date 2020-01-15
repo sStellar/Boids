@@ -3,9 +3,11 @@ and may not be redistributed without written permission.*/
 
 //Using SDL and standard IO
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL2/SDL2_image.h>
 #include <stdio.h>
 #include <string>
+#include <png.h>
+#include <zlib.h>
 
 //The window we'll be rendering to
 SDL_Window* window = NULL;
@@ -15,6 +17,27 @@ SDL_Surface* screenSurface = NULL;
 //Screen dimension constants
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 480;
+
+SDL_Surface* getPNG(std::string img_path) {
+	bool success = true;
+	//The final optimized image
+	SDL_Surface* optimizedSurface = NULL;
+
+	SDL_Surface* png_image = IMG_Load(img_path.c_str());
+	if( png_image == NULL ) {
+		printf( "Unable to load image %s! SDL_image Error: %s\n", img_path.c_str(), IMG_GetError() );
+		success = false;
+	} else {
+		//Convert surface to screen format
+		optimizedSurface = SDL_ConvertSurface( png_image, screenSurface->format, 0 );
+		if( optimizedSurface == NULL ) {
+			printf( "Unable to optimize image %s! SDL Error: %s\n", img_path.c_str(), SDL_GetError() );
+			success = false;
+		} else {
+			return optimizedSurface;
+		}
+	}
+}
 
 void closeWindow(SDL_Window* window) {
 	//Destroy window
@@ -45,45 +68,26 @@ bool initWindow(const char* window_name, int open_time_s) {
 		else
 		{
 			//Get window surface
-			screenSurface = SDL_GetWindowSurface( window );
+			//screenSurface = SDL_GetWindowSurface( window );
 
 			//Fill the surface white
 			//SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
 
-
+			//Get window surface
+      screenSurface = getPNG("/home/peter/Boids/sdl2/01_hello_SDL/preview.png");
 
 			//Update the surface
 			SDL_UpdateWindowSurface( window );
 
-			closeWindow(window)
+			closeWindow(window);
 		}
 	}
 	return success;
 }
 
-bool printPNG(std::string img_path) {
-	bool success = true;
-	//The final optimized image
-  SDL_Surface* optimizedSurface = NULL;
-
-	SDL_Surface* png_image = IMG_Load(img_path.c_str());
-	if( png_image == NULL ) {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-				success = false;
-  } else {
-		//Convert surface to screen format
-    optimizedSurface = SDL_ConvertSurface( png_image, gScreenSurface->format, 0 );
-    if( optimizedSurface == NULL ) {
-      printf( "Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-			success = false;
-    }
-	}
-	return optimizedSurface;
-}
-
 int main()
 {
-	initWindow("Boids", 4);
+	initWindow("Boids", 20);
 
 	return 0;
 }
