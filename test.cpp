@@ -1,4 +1,8 @@
-int main() {
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
 
-  return 0;
+int main() {
+  srand(time(NULL));
+  for (int i; i < 100; ++i) printf("%d\n", rand() % 100);
 }
