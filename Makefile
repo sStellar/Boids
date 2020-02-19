@@ -1,12 +1,18 @@
 LINK_FLAGS = -lSDL2
-FILES := $(shell find *.cpp)
+FILES := $(shell ls *.cpp)
 
 #Compile cpp
 # a:
 # 	g++ -o build/a.out $(LINK_FLAGS) $(FILES)
 
-main:
+m:
 	g++ -o build/a.out $(LINK_FLAGS) main.cpp
+
+t:
+	g++ -o build/test.out $(LINK_FLAGS) test.cpp
 
 run:
 	./build/a.out
+
+trun:
+	./build/test.out
