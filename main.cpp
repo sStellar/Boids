@@ -96,8 +96,16 @@ int main() {
 */
 
   Boid boid1;
+  boid1.placeBoid();
+  Boid boid2;
   boid2.placeBoid();
-  
+  Boid boid3;
+  boid3.placeBoid();
+  Boid boid4;
+  boid4.placeBoid();
+  Boid boid5;
+  boid5.placeBoid();
+
   SDL_UpdateWindowSurface(main_window);
 
   SDL_Delay(2000);
