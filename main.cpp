@@ -58,8 +58,12 @@ class Boid {
       SDL_BlitSurface(boid_bmp, NULL, main_surface, &pos_rect); // Place the boid on pos spec in pos_rect
     }
 
+    void turnBoid(double angle) {
+
+    }
+
   private:
-    int scan_radius = 20; // px
+    int scan_radius = 100; // px
 
 };
 
