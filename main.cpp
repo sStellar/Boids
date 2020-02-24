@@ -13,6 +13,9 @@ SDL_Surface* boid_bmp = NULL;
 SDL_Event e;
 SDL_Rect pos_rect;
 
+void placeBoidsRandom();
+bool initSDLWindow();
+bool loadBoidBMP();
 
 bool initSDLWindow() {
   bool success = true;
@@ -75,29 +78,6 @@ int main() {
     printf("Window created unsuccessfully\n");
   }
   loadBoidBMP(); // Creates the boid bmp surface
-/*
-  while (true) {
-		SDL_PollEvent(&e);
-		if (e.type == SDL_QUIT) {
-			break;
-		} else if (e.type == SDL_KEYDOWN) {
-			switch (e.key.keysym.sym) {
-        case SDLK_UP:
-          --pos_rect.y;
-          break;
-        case SDLK_DOWN:
-          ++pos_rect.y;
-          break;
-        case SDLK_LEFT:
-          --pos_rect.x;
-          break;
-        case SDLK_RIGHT:
-          ++pos_rect.x;
-          break;
-      }
-    }
-  }
-*/
 
   Boid boid1;
   boid1.placeBoid();
