@@ -1,4 +1,5 @@
 LINK_FLAGS = -lSDL2
+TEST_FLAGS = -lSDL2
 FILES := $(shell ls *.cpp)
 
 #Compile cpp
@@ -9,7 +10,7 @@ m:
 	g++ -o build/a.out $(LINK_FLAGS) main.cpp
 
 t:
-	g++ -o build/test.out $(LINK_FLAGS) test.cpp
+	g++ -o build/test.out $(TEST_FLAGS) test.cpp
 
 run:
 	./build/a.out

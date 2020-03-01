@@ -13,7 +13,7 @@ SDL_Surface* boid_bmp = NULL;
 SDL_Event e;
 SDL_Rect pos_rect;
 
-void placeBoidsRandom();
+// void placeBoidsRandom();
 bool initSDLWindow();
 bool loadBoidBMP();
 
@@ -61,14 +61,17 @@ class Boid {
       SDL_BlitSurface(boid_bmp, NULL, main_surface, &pos_rect); // Place the boid on pos spec in pos_rect
     }
 
-    void turnBoid(double angle) {
-
+    int boidDistanceSpec(Boid boid) {
+      //sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
+      return hypot( (boid.x_pos - x_pos), (boid.y_pos - y_pos) ); //hypot(x,y) == sqrt(x^2 + y^2), used as cmnt above
     }
 
   private:
     int scan_radius = 100; // px
 
 };
+
+// void initBoids
 
 int main() {
   srand(time(NULL)); // Random for positions of boids
@@ -80,15 +83,18 @@ int main() {
   loadBoidBMP(); // Creates the boid bmp surface
 
   Boid boid1;
-  boid1.placeBoid();
   Boid boid2;
-  boid2.placeBoid();
   Boid boid3;
-  boid3.placeBoid();
   Boid boid4;
-  boid4.placeBoid();
   Boid boid5;
-  boid5.placeBoid();
+
+  Boid boid_list [6] = {boid1, boid2, boid3, boid4, boid5};
+  for (int i = 0; i < 5; ++i) boid_list[i].placeBoid();
+
+  printf("boid1 pos: %d, %d\n", boid1.x_pos, boid1.y_pos);
+  printf("boid2 pos: %d, %d\n", boid2.x_pos, boid2.y_pos);
+
+  printf("%d\n", boid1.boidDistanceSpec(boid2));
 
   SDL_UpdateWindowSurface(main_window);
 
