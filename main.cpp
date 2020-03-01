@@ -60,7 +60,7 @@ class Boid {
       pos_rect.y = y_pos;
       SDL_BlitSurface(boid_bmp, NULL, main_surface, &pos_rect); // Place the boid on pos spec in pos_rect
     }
-
+// git test
     int boidDistanceSpec(Boid boid) {
       //sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
       return hypot( (boid.x_pos - x_pos), (boid.y_pos - y_pos) ); //hypot(x,y) == sqrt(x^2 + y^2), used as cmnt above
@@ -68,7 +68,6 @@ class Boid {
 
   private:
     int scan_radius = 100; // px
-
 };
 
 // void initBoids
@@ -87,6 +86,7 @@ int main() {
   Boid boid3;
   Boid boid4;
   Boid boid5;
+
 
   Boid boid_list [6] = {boid1, boid2, boid3, boid4, boid5};
   for (int i = 0; i < 5; ++i) boid_list[i].placeBoid();
