@@ -85,8 +85,6 @@ class Boid {
     int scan_radius = 100; // px
 };
 
-// void initBoids
-
 int main() {
   srand(time(NULL)); // Random for positions of boids
   if (initSDLWindow()) {
@@ -95,8 +93,6 @@ int main() {
     printf("Window created unsuccessfully! SDL Error: %s\n", SDL_GetError());
   }
   main_renderer = SDL_CreateRenderer( main_window, -1, SDL_RENDERER_ACCELERATED);
-
-
   SDL_RenderClear(main_renderer);
 
   // Load Boid BMP and make boid_texture have boid_bmp surface, free boid_bmp
