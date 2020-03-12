@@ -9,7 +9,7 @@ const int WIN_HEIGHT = 600;
 const int BMP_WIDTH = 24;
 const int BMP_HEIGHT = 36;
 
-const int BOID_LIST_LENGTH = 6;
+const int NUM_OF_BOIDS = 5;
 const int LOOP_DELAY = 100; // Delay after calculations in main loop (int in milliseconds)
 
 SDL_Window* main_window = NULL;
@@ -82,7 +82,7 @@ class Boid {
   public:
     int x_pos = rand() % WIN_WIDTH;
     int y_pos = rand() % WIN_HEIGHT;
-    int rotation;
+    int rotation = 0;
 
     void placeBoid() {
       pos_rect.x = x_pos;
@@ -93,9 +93,25 @@ class Boid {
       // copy texture to renderer(renderer, texture, NULL = entire texture, texture px scale, rotation, NULL = rotate from center, flip)
     }
 
-    int boidDistanceSpec(Boid boid) {
+    int boidDistance(Boid boid) {
       //sqrt( (x1 - x2)^2 + (y1 - y2)^2 ) pythagoras sats
       return hypot( (boid.x_pos - x_pos), (boid.y_pos - y_pos) ); //hypot(x,y) == sqrt(x^2 + y^2)
+    }
+
+    bool boidCollision(int distance = 0) {
+      // int distance = boidDistance(boid);
+      if (distance < scan_radius) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    int boidRotation(Boid dist_boid) {
+      // angle v = sin^-1(y/dist)
+      // double asin(double x)
+      //double rot = asin
+      return 0;
     }
 
   private:
@@ -116,31 +132,8 @@ int main() {
   createIMGTexture();
   if (boid_texture == NULL) printf("Texture not loaded! SDL_Error: %s\n", SDL_GetError());
 
-  Boid boid1;
-  Boid boid2;
-  Boid boid3;
-  Boid boid4;
-  Boid boid5;
-  Boid boid_list [BOID_LIST_LENGTH] = {boid1, boid2, boid3, boid4, boid5};
+  Boid boid_list [NUM_OF_BOIDS+1];
 
-  boid1.rotation = 361;
-/*
-  for (int i = 0; i < BOID_LIST_LENGTH; ++i) {
-    if (i > 1) boid_list[i].rotation = 0;
-    boid_list[i].placeBoid();
-    printf("rot: %d, boid: %d\n", boid_list[i].rotation, i);
-  }
-
-  printf("boid1 pos: %d, %d\n", boid1.x_pos, boid1.y_pos);
-  printf("boid2 pos: %d, %d\n", boid2.x_pos, boid2.y_pos);
-
-  printf("%d\n", boid1.boidDistanceSpec(boid2));
-
-  SDL_RenderPresent(main_renderer);
-
-  SDL_Delay(2000);
-  return 0;
-*/
   int boid_distance;
   bool running = true;
 
@@ -150,25 +143,29 @@ int main() {
     SDL_PollEvent(&e);
     if (e.type == SDL_KEYDOWN) {
       if (e.key.keysym.sym == SDLK_ESCAPE) {
-        close();
         break;
       }
-    }
+    } // Quit loop
 
-    for (int i = 0; i < BOID_LIST_LENGTH; ++i) {
+    for (int i = 0; i < NUM_OF_BOIDS; i++) {
       boid_list[i].placeBoid();
       printf("rot: %d, boid: %d\n", boid_list[i].rotation, i);
-    }
+    } // Place boid loop
 
-    for (int i = 0; i < (BOID_LIST_LENGTH -1); ++i) { // length -1 because getting length between 1 boid and the next, other wise off by one
-      boid_distance = boid_list[i].boidDistanceSpec(boid_list[i+1]);
-      printf("distance: %d boid %d boid %d\n", boid_distance, i, i+1);
-    }
-    boid1.x_pos += 1;
-    boid1.y_pos += 1;
+    for (int i = 0; i <= NUM_OF_BOIDS; i++) {
+      for (int sub_i = 0; sub_i <= NUM_OF_BOIDS; sub_i++) {
+        if (sub_i != i) {
+          boid_distance = boid_list[i].boidDistance(boid_list[sub_i]);
+          printf("distance: %d boid %d boid %d\n", boid_distance, i, sub_i);
+          printf("col: %s\n", boid_list[i].boidCollision(boid_distance) ? "true" : "false");
+          // printf("%s", x ? "true" : "false")
+        }
+      }
+    } // Distance and collision loop
 
     SDL_RenderPresent(main_renderer);
     SDL_Delay(LOOP_DELAY);
   }
+  close();
   return 0;
 }

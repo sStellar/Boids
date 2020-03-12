@@ -6,7 +6,7 @@ FILES := $(shell ls *.cpp)
 # a:
 # 	g++ -o build/a.out $(LINK_FLAGS) $(FILES)
 
-m:
+default:
 	g++ -o build/a.out $(LINK_FLAGS) main.cpp
 
 t:
